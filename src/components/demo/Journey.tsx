@@ -1,4 +1,4 @@
-import { AnimatePresence, MotionConfig, motion, useMotionValueEvent, useScroll } from 'motion/react';
+import { AnimatePresence, MotionConfig, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { FileDown, FileSpreadsheet, ClipboardCopy, Pencil, ShoppingBag } from 'lucide-react';
 import Stepper from '../ui/Stepper';
@@ -60,15 +60,41 @@ function RuleForm() {
 
 const SW = ['Coral', 'Azul', 'Amarelo', 'Verde'] as const;
 
+type Flyer = { id: number; c: string; x0: number; y0: number; x1: number; y1: number };
+
 function PickScreen() {
   const [n, setN] = useState(0);
+  const [bump, setBump] = useState(0);
+  const [flyers, setFlyers] = useState<Flyer[]>([]);
+  const reduce = useReducedMotion();
+  const box = useRef<HTMLDivElement>(null);
+  const cards = useRef<(HTMLDivElement | null)[]>([]);
+  const bag = useRef<HTMLSpanElement>(null);
+
+  // Efeito "produto voando até o resumo": o card escolhido vira uma bolinha que voa até o carrinho.
+  const pick = (i: number) => {
+    setN(i + 1);
+    const b = box.current?.getBoundingClientRect();
+    const c = cards.current[i]?.getBoundingClientRect();
+    const t = bag.current?.getBoundingClientRect();
+    if (reduce || !b || !c || !t) { setBump((v) => v + 1); return; }
+    const half = 14;
+    setFlyers((f) => [...f, {
+      id: Date.now() + i, c: SW[i],
+      x0: c.left - b.left + c.width / 2 - half, y0: c.top - b.top + 12,
+      x1: t.left - b.left + t.width / 2 - half, y1: t.top - b.top + t.height / 2 - half,
+    }]);
+  };
+
   useEffect(() => {
-    const a = setTimeout(() => setN(1), 700);
-    const b = setTimeout(() => setN(2), 1400);
+    const a = setTimeout(() => pick(0), 800);
+    const b = setTimeout(() => pick(1), 1700);
     return () => { clearTimeout(a); clearTimeout(b); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
-    <motion.div key="pick" {...enter} className="space-y-2.5">
+    <motion.div key="pick" ref={box} {...enter} className="relative space-y-2.5">
       <Stepper steps={['Tamanho', 'Cor', 'Revisão']} current={1} />
       <div>
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Etapa 2 de 3</p>
@@ -80,7 +106,7 @@ function PickScreen() {
           const on = i < n;
           const locked = n >= 2 && !on;
           return (
-            <motion.div key={c} animate={{ scale: on ? 1.04 : 1, opacity: locked ? 0.45 : 1 }} className={`overflow-hidden rounded-xl border-2 border-ink bg-card ${on ? 'shadow-[3px_3px_0_0_var(--foreground)]' : ''}`}>
+            <motion.div key={c} ref={(el) => { cards.current[i] = el; }} animate={{ scale: on ? 1.04 : 1, opacity: locked ? 0.45 : 1 }} className={`overflow-hidden rounded-xl border-2 border-ink bg-card ${on ? 'shadow-[3px_3px_0_0_var(--foreground)]' : ''}`}>
               <span className={`block h-9 ${COLOR_DOT[c]}`} />
               <p className="px-1.5 pt-1 text-xs font-bold">{c}</p>
               <p className="px-1.5 pb-1 text-[10px] font-semibold text-muted-foreground">{on ? 'Selecionado' : 'Toque para escolher'}</p>
@@ -90,11 +116,18 @@ function PickScreen() {
       </div>
       <div className="flex items-center justify-between rounded-full border-2 border-ink bg-card p-1.5 pr-1.5 shadow-[var(--shadow-pop)]">
         <span className="flex items-center gap-2 text-xs font-bold">
-          <span className="relative grid size-8 place-items-center rounded-full border-2 border-ink bg-accent"><ShoppingBag className="size-4" aria-hidden="true" /><span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full border-2 border-ink bg-primary text-[9px] text-primary-foreground">{n}</span></span>
+          <motion.span ref={bag} key={bump} animate={{ scale: bump ? [1, 1.25, 1] : 1 }} transition={{ duration: 0.35 }} className="relative grid size-8 place-items-center rounded-full border-2 border-ink bg-accent"><ShoppingBag className="size-4" aria-hidden="true" /><span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full border-2 border-ink bg-primary text-[9px] text-primary-foreground">{n}</span></motion.span>
           Meu pedido
         </span>
         <span className={`rounded-full border-2 border-ink px-3 py-1 text-xs font-bold ${n >= 1 ? 'bg-primary text-primary-foreground' : 'bg-primary/40 text-primary-foreground'}`}>Continuar</span>
       </div>
+      {flyers.map((f) => (
+        <motion.span key={f.id} aria-hidden="true" className={`pointer-events-none absolute left-0 top-0 z-10 size-7 rounded-lg border-2 border-ink ${COLOR_DOT[f.c]}`}
+          initial={{ x: f.x0, y: f.y0, scale: 1, opacity: 1, rotate: 0 }}
+          animate={{ x: f.x1, y: f.y1, scale: 0.45, opacity: [1, 1, 0.9], rotate: 200 }}
+          transition={{ x: { duration: 0.75, ease: [0.4, 0, 0.2, 1] }, y: { duration: 0.75, ease: [0.3, -0.4, 0.6, 1] }, scale: { duration: 0.75 }, rotate: { duration: 0.75 }, opacity: { duration: 0.75 } }}
+          onAnimationComplete={() => { setFlyers((l) => l.filter((x) => x.id !== f.id)); setBump((v) => v + 1); }} />
+      ))}
     </motion.div>
   );
 }

@@ -82,7 +82,7 @@ export default function HeroVisual() {
       </Floating>
 
       {/* Resumo */}
-      <Floating mx={mx} my={my} depth={1.4} delay={0.4} floatClass={float} className="bottom-2 right-0 w-[60%] sm:w-[44%]">
+      <Floating mx={mx} my={my} depth={1.4} delay={0.4} floatClass={float} className="bottom-2 right-0 w-[57%] sm:w-[44%]">
         <div className="pop-card p-4">
           <p className="flex items-center gap-2 font-display text-xl"><ListChecks className="size-5" aria-hidden="true" />Seu resumo</p>
           <ul className="mt-2 space-y-1 text-sm font-medium">
@@ -95,7 +95,7 @@ export default function HeroVisual() {
       </Floating>
 
       {/* Rodada */}
-      <Floating mx={mx} my={my} depth={0.8} delay={0.55} floatClass={float} className="bottom-4 left-0 w-[50%] sm:w-[34%]">
+      <Floating mx={mx} my={my} depth={0.8} delay={0.55} floatClass={float} className="bottom-0 left-0 w-[38%] sm:w-[30%]">
         <div className="pop-card bg-accent p-3">
           <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide"><Clock className="size-4" aria-hidden="true" />Rodada aberta</p>
           <p className="font-display text-xl">Encerra às 18h</p>

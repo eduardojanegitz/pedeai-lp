@@ -1,0 +1,30 @@
+---
+import HeroVisual from '../hero/HeroVisual';
+const appUrl = import.meta.env.PUBLIC_APP_URL || '#como-funciona';
+const words = ['Pedido', 'coletivo', 'sem', 'bagunça.'];
+---
+<section id="topo" class="relative overflow-hidden">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-2 md:pb-24 md:pt-16">
+    <div>
+      <p class="mb-4 inline-block rounded-full border-2 border-ink bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider">
+        Cardápios digitais interativos e gestão de pedidos
+      </p>
+      <h1 class="text-[clamp(3.25rem,min(12vw,8.5vw+1rem),6.5rem)]">
+        {words.map((w, i) => (
+          <span class="reveal-word mr-[0.2em]" style={`--i:${i}`}>{i === 3 ? <span class="text-primary">{w}</span> : w}</span>
+        ))}
+      </h1>
+      <p class="mt-5 max-w-lg text-lg font-medium text-muted-foreground md:text-xl">
+        Cardápio por etapas, regras de escolha por categoria e todos os pedidos num painel só.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href={appUrl} class="pop-press rounded-full bg-primary px-7 py-3.5 text-lg font-bold text-primary-foreground">Abrir demo do app</a>
+        <a href="#como-funciona" class="pop-press rounded-full bg-card px-7 py-3.5 text-lg font-bold">Ver como funciona</a>
+      </div>
+      <ul class="mt-8 flex flex-wrap gap-x-5 gap-y-1 text-sm font-semibold text-muted-foreground">
+        <li>Jornada passo a passo</li><li>Limites por categoria</li><li>Exportação em PDF e Excel</li>
+      </ul>
+    </div>
+    <HeroVisual client:load />
+  </div>
+</section>

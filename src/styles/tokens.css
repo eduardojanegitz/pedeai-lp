@@ -1,0 +1,71 @@
+/* Tokens "Feira Vibrante" — arquivo único, reutilizável no app. */
+:root {
+  --radius: 1.25rem;
+  --background: oklch(0.975 0.035 88);
+  --foreground: oklch(0.21 0 0);
+  --card: oklch(0.995 0.012 88);
+  --primary: oklch(0.67 0.2 35);
+  --primary-foreground: oklch(0.995 0.012 88);
+  --secondary: oklch(0.55 0.23 265);
+  --secondary-foreground: oklch(0.995 0.012 88);
+  --muted: oklch(0.93 0.04 88);
+  --muted-foreground: oklch(0.42 0.02 70);
+  --accent: oklch(0.86 0.15 92);
+  --accent-foreground: oklch(0.21 0 0);
+  --destructive: oklch(0.55 0.22 25);
+  --border: oklch(0.21 0 0);
+  --ring: oklch(0.55 0.23 265);
+  --chart-4: oklch(0.7 0.15 160);
+  --shadow-pop: 4px 4px 0 0 var(--foreground);
+  --shadow-pop-lg: 7px 7px 0 0 var(--foreground);
+
+  /* Propostos na Fase 2 (movimento) */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-inout: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-micro: 120ms;
+  --dur-component: 300ms;
+  --dur-scene: 700ms;
+}
+
+@layer components {
+.pop-card {
+  background: var(--card);
+  border: 2.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+}
+.pop-card-lg { box-shadow: var(--shadow-pop-lg); }
+
+.pop-press {
+  border: 2.5px solid var(--border);
+  box-shadow: var(--shadow-pop);
+  transition: transform var(--dur-micro) var(--ease-inout), box-shadow var(--dur-micro) var(--ease-inout);
+}
+.pop-press:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 0 var(--foreground);
+}
+}
+
+/* "!" pulsante: ciclo 1.6s + pausa 2.4s = 4s */
+.logo-bang {
+  display: inline-block;
+  color: var(--secondary);
+  animation: bang 4s var(--ease-inout) infinite;
+  transform-origin: 50% 80%;
+}
+@keyframes bang {
+  0% { transform: scale(1) rotate(0); }
+  20% { transform: scale(1.18) rotate(-6deg); }
+  40% { transform: scale(1) rotate(0); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

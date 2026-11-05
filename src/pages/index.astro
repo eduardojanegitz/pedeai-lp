@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Security from '../components/sections/Security.astro';
+import Final from '../components/sections/Final.astro';
+import Journey from '../components/demo/Journey';
+import Rules from '../components/demo/Rules';
+import AdminPanel from '../components/demo/AdminPanel';
+---
+<Layout
+  title="PedeAí! — Cardápios digitais e gestão de pedidos"
+  description="Pedido coletivo sem bagunça: cardápio por etapas, regras de escolha por categoria e todos os pedidos num painel só, com exportação em PDF e Excel."
+>
+  <Hero />
+
+  <section id="como-funciona" class="border-y-[2.5px] border-ink bg-muted">
+    <div class="mx-auto max-w-6xl px-4 pt-16">
+      <h2 class="text-5xl md:text-6xl">Como funciona</h2>
+      <p class="mt-3 max-w-2xl text-lg font-medium text-muted-foreground">Role a página ou clique nas etapas: da categoria ao pedido no painel.</p>
+    </div>
+    <Journey client:visible />
+  </section>
+
+  <section id="categorias" class="mx-auto max-w-6xl px-4 py-20">
+    <h2 class="text-5xl md:text-6xl">Categorias com limites inteligentes</h2>
+    <p class="mt-3 mb-10 max-w-2xl text-lg font-medium text-muted-foreground">Cada categoria define o mínimo e o máximo de escolhas. Experimente: o app só deixa avançar quando as regras estão cumpridas.</p>
+    <Rules client:visible />
+  </section>
+
+  <section id="painel" class="border-y-[2.5px] border-ink bg-muted py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-5xl md:text-6xl">Todos os pedidos, num painel só</h2>
+      <p class="mt-3 mb-10 max-w-2xl text-lg font-medium text-muted-foreground">Filtre, consulte a visão consolidada e exporte em PDF, Excel ou texto para WhatsApp.</p>
+      <AdminPanel client:visible />
+    </div>
+  </section>
+
+  <Security />
+  <Final />
+</Layout>

@@ -1,0 +1,28 @@
+---
+import BrandReveal from '../brand/BrandReveal';
+const appUrl = import.meta.env.PUBLIC_APP_URL || '#como-funciona';
+---
+<section class="border-y-[2.5px] border-ink bg-accent py-20">
+  <div class="mx-auto max-w-6xl px-4">
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="pop-card p-6">
+        <h3 class="text-4xl">Para quem pede</h3>
+        <p class="mt-2 font-medium text-muted-foreground">Uma escolha por vez, com as regras à vista e um resumo antes de confirmar. Dá para editar ou cancelar enquanto a rodada estiver aberta.</p>
+      </article>
+      <article class="pop-card p-6">
+        <h3 class="text-4xl">Para quem organiza</h3>
+        <p class="mt-2 font-medium text-muted-foreground">Cardápio, rodadas e pedidos num painel só, com filtros, visão consolidada e exportação em PDF, Excel e texto para WhatsApp.</p>
+      </article>
+    </div>
+
+    <div class="mt-16 text-center">
+      <BrandReveal client:visible />
+      <h2 class="mt-4 text-5xl md:text-6xl">Pronto para organizar o próximo pedido?</h2>
+      <a href={appUrl} class="pop-press mt-8 inline-block rounded-full bg-primary px-8 py-4 text-xl font-bold text-primary-foreground">Abrir demo do app</a>
+      <p class="mx-auto mt-8 max-w-md rounded-xl border-2 border-dashed border-ink px-4 py-3 text-sm font-semibold">
+        <span class="mr-2 rounded-full border-2 border-ink bg-card px-2 py-0.5 text-xs font-bold uppercase">Em breve</span>
+        Efeito animado do produto voando até o resumo.
+      </p>
+    </div>
+  </div>
+</section>

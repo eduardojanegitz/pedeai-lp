@@ -1,0 +1,32 @@
+---
+import { Clock, KeyRound, EyeOff } from 'lucide-react';
+const items = [
+  { Icon: Clock, t: 'Rodadas com horário', d: 'O admin define abertura e encerramento (horário de Brasília). Enquanto a rodada está aberta, o participante pode editar ou cancelar o pedido.', c: 'bg-accent' },
+  { Icon: KeyRound, t: 'Código de recuperação', d: 'Trocou de aparelho? O pedido volta com um código mostrado uma única vez. O número de celular sozinho nunca é tratado como senha.', c: 'bg-secondary text-secondary-foreground' },
+  { Icon: EyeOff, t: 'Dados só com o admin', d: 'Dados pessoais ficam visíveis apenas no painel e não entram nas exportações em PDF e Excel.', c: 'bg-leaf' },
+];
+---
+<section id="seguranca" class="mx-auto max-w-6xl px-4 py-20">
+  <h2 class="text-5xl md:text-6xl">Controle e segurança, sem complicar</h2>
+  <p class="mt-3 max-w-2xl text-lg font-medium text-muted-foreground">Quem organiza define as regras. Quem pede segue o caminho.</p>
+  <div class="mt-10 grid gap-6 md:grid-cols-3">
+    {items.map(({ Icon, t, d, c }) => (
+      <article class="pop-card p-6">
+        <span class={`mb-4 grid size-12 place-items-center rounded-xl border-[2.5px] border-ink ${c}`}><Icon aria-hidden="true" /></span>
+        <h3 class="text-3xl">{t}</h3>
+        <p class="mt-2 font-medium text-muted-foreground">{d}</p>
+      </article>
+    ))}
+  </div>
+  <div class="mt-10 grid items-center gap-6 md:grid-cols-2">
+    <div class="pop-card p-6 text-center">
+      <span class="mx-auto mb-3 grid size-12 place-items-center rounded-full border-[2.5px] border-ink bg-primary text-primary-foreground shadow-[var(--shadow-pop)]" aria-hidden="true">✓</span>
+      <p class="font-display text-4xl">Cadastro feito!</p>
+      <p class="mt-2 text-sm font-medium text-muted-foreground">Guarde este código. Ele é a <strong class="text-foreground">única forma</strong> de recuperar seu pedido em outro aparelho e não será mostrado de novo.</p>
+      <p class="mt-4 rounded-full border-2 border-dashed border-ink bg-accent py-3 font-mono text-xl font-bold tracking-[0.2em]" aria-label="Exemplo de código de recuperação">K4MQ2-9XTR7</p>
+      <p class="mt-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">Exemplo ilustrativo</p>
+    </div>
+    <p class="text-lg font-medium text-muted-foreground">Se alguém perder o código, o admin pode <strong class="text-foreground">redefinir o código de recuperação</strong> direto no painel, no card do pedido.</p>
+  </div>
+  <p class="mt-6 text-sm font-semibold text-muted-foreground">Observação: ao recuperar um pedido em outro aparelho, o aparelho anterior é desconectado.</p>
+</section>

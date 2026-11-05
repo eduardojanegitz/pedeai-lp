@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import '@fontsource/bebas-neue/latin-400.css';
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-500.css';
+import '@fontsource/barlow/latin-600.css';
+import '@fontsource/barlow/latin-700.css';
+import Logo from '../components/ui/Logo.astro';
+
+const { title, description } = Astro.props;
+const appUrl = import.meta.env.PUBLIC_APP_URL || '#como-funciona';
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FFF4D6" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:bg-accent focus:px-4 focus:py-2 pop-card">Ir para o conteúdo</a>
+    <header class="sticky top-0 z-40 border-b-[2.5px] border-ink bg-background/95 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <a href="#topo" aria-label="PedeAí! — início"><Logo class="text-3xl" /></a>
+        <nav aria-label="Principal" class="hidden gap-6 text-sm font-semibold md:flex">
+          <a href="#como-funciona" class="hover:text-primary">Como funciona</a>
+          <a href="#categorias" class="hover:text-primary">Categorias</a>
+          <a href="#painel" class="hover:text-primary">Painel</a>
+          <a href="#seguranca" class="hover:text-primary">Controle</a>
+        </nav>
+        <a href={appUrl} class="pop-press rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground">Abrir demo</a>
+      </div>
+    </header>
+    <main id="conteudo"><slot /></main>
+    <footer class="border-t-[2.5px] border-ink bg-ink py-8 text-center text-sm text-background">
+      <p><span class="font-display text-xl">PedeAí!</span> · Plataforma de cardápios digitais e gestão de pedidos.</p>
+      <p class="mt-1 opacity-70">Telas desta página são representações em demonstração, sem dados reais.</p>
+    </footer>
+  </body>
+</html>
